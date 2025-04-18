@@ -14,11 +14,35 @@ generator client {
   binaryTargets = "native"
 }
 
-// Define your own datamodels here and run `yarn redwood prisma migrate dev`
-// to create migrations for them and apply to your dev DB.
-// TODO: Please remove the following example:
-model UserExample {
+model Plot {
   id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
+  name  String  @unique
+  Patch Patch[]
+}
+
+model Patch {
+  id     Int    @id @default(autoincrement())
+  name   String
+  plotId Int
+  plot   Plot   @relation(fields: [plotId], references: [id])
+
+  sensors Sensor[]
+}
+
+model Sensor {
+  id      Int    @id @default(autoincrement())
+  name    String @unique
+  patchId Int
+  patch   Patch  @relation(fields: [patchId], references: [id])
+
+  metrics Metric[]
+}
+
+model Metric {
+  id         Int      @id @default(autoincrement())
+  name       String
+  value      Float
+  recordedAt DateTime @default(now())
+  sensorId   Int
+  sensor     Sensor   @relation(fields: [sensorId], references: [id])
 }
