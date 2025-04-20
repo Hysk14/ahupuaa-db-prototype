@@ -30,19 +30,21 @@ model Patch {
 }
 
 model Sensor {
-  id      Int    @id @default(autoincrement())
-  name    String @unique
-  patchId Int
-  patch   Patch  @relation(fields: [patchId], references: [id])
+  id        Int     @id @default(autoincrement())
+  name      String?
+  serial_id String? @unique
+  location  String?
+  patchId   Int
+  patch     Patch   @relation(fields: [patchId], references: [id])
 
   metrics Metric[]
 }
 
 model Metric {
   id         Int      @id @default(autoincrement())
-  name       String
   value      Float
   recordedAt DateTime @default(now())
+  type       String
   sensorId   Int
   sensor     Sensor   @relation(fields: [sensorId], references: [id])
 }
