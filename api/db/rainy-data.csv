@@ -1,0 +1,13 @@
+type,value,recordedAt,sensor_type
+moisture,85.2,2024-04-18T08:00:00Z,moisture sensor
+rain,12.3,2024-04-18T08:00:00Z,rain gauge
+humidity,95.0,2024-04-18T08:00:00Z,humidity sensor
+moisture,86.7,2024-04-18T10:00:00Z,moisture sensor
+rain,15.0,2024-04-18T10:00:00Z,rain gauge
+humidity,92.5,2024-04-18T10:00:00Z,humidity sensor
+moisture,87.5,2024-04-18T12:00:00Z,moisture sensor
+rain,10.2,2024-04-18T12:00:00Z,rain gauge
+humidity,93.0,2024-04-18T12:00:00Z,humidity sensor
+moisture,89.0,2024-04-18T14:00:00Z,moisture sensor
+rain,9.8,2024-04-18T14:00:00Z,rain gauge
+humidity,94.2,2024-04-18T14:00:00Z,humidity sensor
