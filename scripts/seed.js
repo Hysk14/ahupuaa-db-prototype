@@ -1,27 +1,46 @@
-// import { db } from 'api/src/lib/db'
+import fs from 'fs'
 
-// Manually apply seeds via the `yarn rw prisma db seed` command.
-//
-// Seeds automatically run the first time you run the `yarn rw prisma migrate dev`
-// command and every time you run the `yarn rw prisma migrate reset` command.
-//
-// See https://redwoodjs.com/docs/database-seeds for more info
+import { db } from 'api/src/lib/db'
+import { parse } from 'csv-parse/sync'
 
-export default async () => {
-  try {
-    // Create your database records here! For example, seed some users:
-    //
-    // const users = [
-    //   { name: 'Alice', email: 'alice@redwoodjs.com' },
-    //   { name: 'Bob', email: 'bob@redwoodjs.com' },
-    // ]
-    //
-    // await db.user.createMany({ data: users })
+export default async function seed() {
+  console.log('🌧️ Seeding database with rainy weather data...')
 
-    console.info(
-      '\n  No seed data, skipping. See scripts/seed.js to start seeding your database!\n'
-    )
-  } catch (error) {
-    console.error(error)
+  const csvData = fs.readFileSync('api/db/rainy-data.csv', 'utf-8')
+
+  const records = parse(csvData, {
+    columns: true,
+    skip_empty_lines: true,
+  })
+
+  const plot = await db.plot.create({
+    data: { name: 'Waianae' },
+  })
+
+  const patch = await db.patch.create({
+    data: {
+      name: 'Lo‘i A',
+      plotId: plot.id,
+    },
+  })
+
+  const sensor = await db.sensor.create({
+    data: {
+      name: 'Rain Sensor',
+      patchId: patch.id,
+    },
+  })
+
+  for (const record of records) {
+    await db.metric.create({
+      data: {
+        type: record.type,
+        value: parseFloat(record.value),
+        recordedAt: new Date(record.recordedAt),
+        sensorId: sensor.id,
+      },
+    })
   }
+
+  console.log('✅ Rainy weather data seeded successfully!')
 }
