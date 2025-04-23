@@ -26,7 +26,8 @@ model Patch {
   plotId Int
   plot   Plot   @relation(fields: [plotId], references: [id])
 
-  sensors Sensor[]
+  sensors         Sensor[]
+  SoilComposition SoilComposition?
 }
 
 model Sensor {
@@ -47,4 +48,28 @@ model Metric {
   type       String
   sensorId   Int
   sensor     Sensor   @relation(fields: [sensorId], references: [id])
+}
+
+model SoilComposition {
+  id      Int   @id @default(autoincrement())
+  patchId Int   @unique
+  patch   Patch @relation(fields: [patchId], references: [id])
+
+  sampledAt      DateTime
+  TEC            Float
+  pH             Float
+  Sulfur         Float
+  Phosphorus     Float
+  OlsenP         Int
+  Calcium        Float
+  Magnesium      Float
+  Potassium      Float
+  Sodium         Float
+  Boron          Float
+  Iron           Float
+  Manganese      Float
+  Copper         Float
+  Zinc           Float
+  Aluminum       Float
+  TotalCarbonPCT Float
 }
