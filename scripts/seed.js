@@ -4,6 +4,14 @@ import { db } from 'api/src/lib/db'
 import { parse } from 'csv-parse/sync'
 
 export default async function seed() {
+  // delete in reverse-dependency order
+  await db.metric.deleteMany()
+  await db.sensor.deleteMany()
+  await db.patch.deleteMany()
+  await db.plot.deleteMany()
+
+  console.log('🌱 Reseeding fresh…')
+
   console.log('🌧️ Seeding database with rainy weather data...')
 
   const csvData = fs.readFileSync('api/db/rainy-data.csv', 'utf-8')
