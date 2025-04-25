@@ -4,10 +4,10 @@ import { db } from 'src/lib/db'
 export const getAllPlots = () => {
   return db.plot.findMany({
     include: {
-      patches: {
+      Patch: {
         include: {
-          sensors: {
-            include: { metrics: true },
+          Sensor: {
+            include: { Metric: true },
           },
           soilComposition: true,
         },
